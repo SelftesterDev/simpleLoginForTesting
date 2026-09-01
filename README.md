@@ -140,3 +140,5 @@ docker-compose --version
 ## License
 
 This project is provided as-is for testing purposes.
+
+## Netlify published: https://aquamarine-frangollo-5649fe.netlify.app/
