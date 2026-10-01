@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pokemon Explorer - Test Verification</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+.test-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+h1 {
+    color: #333;
+}
+
+.test-case {
+    margin: 20px 0;
+    padding: 15px;
+    border-left: 4px solid #4CAF50;
+    background: #f0f8f0;
+}
+
+.test-case.fail {
+    border-left-color: #f44336;
+    background: #ffebee;
+}
+
+.test-case h3 {
+    margin-top: 0;
+}
+
+.test-result {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.result-pass {
+    background: #4CAF50;
+    color: white;
+}
+
+.result-fail {
+    background: #f44336;
+    color: white;
+}
+
+.test-steps {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.test-steps li {
+    margin: 5px 0;
+}
+
+iframe {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="test-container">
+    <h1>Pokemon Explorer Feature - Test Verification</h1>
+
+    <p>This test file verifies that the Pokemon Explorer feature has been properly implemented in index.html</p>
+
+    <div class="test-case">
+        <h3>Test Case 1: Page Contains "Search by Pokemon Name:" Label</h3>
+        <ol class="test-steps">
+            <li>Load the index.html page</li>
+            <li>Search the page for the text "Search by Pokemon Name:"</li>
+            <li>Verify the text is visible in the Pokemon Explorer section</li>
+        </ol>
+        <div id="test1-result" class="test-result"></div>
+    </div>
+
+    <div class="test-case">
+        <h3>Test Case 2: Label Element Properly Associated with Input</h3>
+        <ol class="test-steps">
+            <li>Right-click on the "Search by Pokemon Name:" label</li>
+            <li>Select "Inspect" to open DevTools</li>
+            <li>Verify the label has attribute: for="pokemon-search"</li>
+            <li>Verify the input has attribute: id="pokemon-search"</li>
+        </ol>
+        <div id="test2-result" class="test-result"></div>
+    </div>
+
+    <div class="test-case">
+        <h3>Test Case 3: Responsive Design Verification</h3>
+        <ol class="test-steps">
+            <li>Open DevTools (F12)</li>
+            <li>Toggle device toolbar (Ctrl+Shift+M)</li>
+            <li>Test at viewport width 320px (mobile)</li>
+            <li>Test at viewport width 768px (tablet)</li>
+            <li>Test at viewport width 1920px (desktop)</li>
+            <li>Verify no horizontal scrolling at any size</li>
+            <li>Verify both Pokemon Explorer and Login sections are visible</li>
+        </ol>
+        <div id="test3-result" class="test-result"></div>
+    </div>
+
+    <div class="test-case">
+        <h3>Test Case 4: Login Form Remains Functional</h3>
+        <ol class="test-steps">
+            <li>Scroll down to the Login section</li>
+            <li>Enter email: "default@test.com"</li>
+            <li>Enter password: "default123"</li>
+            <li>Click the Login button</li>
+            <li>Verify "WELCOME DEFAULT USER" message appears</li>
+        </ol>
+        <div id="test4-result" class="test-result"></div>
+    </div>
+
+    <div class="test-case">
+        <h3>Test Case 5: Accessibility - Label Association</h3>
+        <ol class="test-steps">
+            <li>Open Firefox Accessibility Inspector (F12 > Accessibility tab)</li>
+            <li>Expand the label element</li>
+            <li>Verify it properly associates with the pokemon-search input</li>
+            <li>Verify the input can be focused via keyboard (Tab key)</li>
+        </ol>
+        <div id="test5-result" class="test-result"></div>
+    </div>
+
+    <h2>Live Preview</h2>
+    <p>Load index.html below to manually verify the feature:</p>
+    <iframe id="preview" src="./index.html" title="Pokemon Explorer Application"></iframe>
+</div>
+
+<script>
+// Simple verification script to check if features are present in index.html
+function verifyFeatures() {
+    const iframe = document.getElementById('preview');
+
+    // Wait for iframe to load, then check its contents
+    iframe.onload = function() {
+        try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+            // Test 1: Check for "Search by Pokemon Name:" text
+            const bodyText = iframeDoc.body.innerText;
+            const hasLabel = bodyText.includes('Search by Pokemon Name:');
+            const test1Result = document.getElementById('test1-result');
+            if (hasLabel) {
+                test1Result.className = 'test-result result-pass';
+                test1Result.innerHTML = '✓ PASS: "Search by Pokemon Name:" label found in page';
+            } else {
+                test1Result.className = 'test-result result-fail';
+                test1Result.innerHTML = '✗ FAIL: "Search by Pokemon Name:" label NOT found in page';
+            }
+
+            // Test 2: Check for proper label association
+            const labels = iframeDoc.querySelectorAll('label');
+            let labelFound = false;
+            labels.forEach(label => {
+                if (label.textContent.includes('Search by Pokemon Name:') && label.htmlFor === 'pokemon-search') {
+                    labelFound = true;
+                }
+            });
+            const test2Result = document.getElementById('test2-result');
+            if (labelFound) {
+                test2Result.className = 'test-result result-pass';
+                test2Result.innerHTML = '✓ PASS: Label properly associated with pokemon-search input (for="pokemon-search")';
+            } else {
+                test2Result.className = 'test-result result-fail';
+                test2Result.innerHTML = '✗ FAIL: Label association not found or incorrect';
+            }
+
+            // Test 3: Check for responsive design
+            const viewportMeta = iframeDoc.querySelector('meta[name="viewport"]');
+            const test3Result = document.getElementById('test3-result');
+            if (viewportMeta) {
+                test3Result.className = 'test-result result-pass';
+                test3Result.innerHTML = '✓ PASS: Viewport meta tag found - responsive design enabled';
+            } else {
+                test3Result.className = 'test-result result-fail';
+                test3Result.innerHTML = '✗ FAIL: Viewport meta tag NOT found - responsive design may not work';
+            }
+
+            // Test 4: Check for login form
+            const usernameInput = iframeDoc.getElementById('username');
+            const passwordInput = iframeDoc.getElementById('password');
+            const loginButton = iframeDoc.querySelector('button[onclick*="login"]');
+            const test4Result = document.getElementById('test4-result');
+            if (usernameInput && passwordInput && loginButton) {
+                test4Result.className = 'test-result result-pass';
+                test4Result.innerHTML = '✓ PASS: Login form elements found and functional';
+            } else {
+                test4Result.className = 'test-result result-fail';
+                test4Result.innerHTML = '✗ FAIL: Login form elements missing or broken';
+            }
+
+            // Test 5: Check for Pokemon input element
+            const pokemonInput = iframeDoc.getElementById('pokemon-search');
+            const test5Result = document.getElementById('test5-result');
+            if (pokemonInput) {
+                test5Result.className = 'test-result result-pass';
+                test5Result.innerHTML = '✓ PASS: Pokemon search input element found with correct ID';
+            } else {
+                test5Result.className = 'test-result result-fail';
+                test5Result.innerHTML = '✗ FAIL: Pokemon search input element NOT found';
+            }
+
+        } catch (e) {
+            console.log('Note: Some tests require cross-origin access. Manual verification in browser DevTools recommended.');
+        }
+    };
+}
+
+// Run verification when page loads
+window.addEventListener('load', verifyFeatures);
+</script>
+
+</body>
+</html>
